@@ -1,0 +1,74 @@
+<!-- HERO BLOG -->
+<section class="pt-36 pb-16 relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-80 h-80 bg-accent/10 rounded-full blur-3xl pointer-events-none"
+        aria-hidden="true"></div>
+    <div class="max-w-6xl mx-auto px-6 relative z-10">
+        <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Writing</p>
+        <h1
+            class="reveal reveal-delay-1 font-display font-bold text-5xl md:text-6xl text-zinc-900 dark:text-white leading-tight mb-4">
+            The Blog</h1>
+        <p class="reveal reveal-delay-2 text-lg text-zinc-500 dark:text-zinc-400 max-w-xl leading-relaxed">Thoughts on
+            UI/UX design, frontend development, and the realities of full-time freelancing. No fluff.</p>
+
+        <!-- Filter tags -->
+        <div class="reveal reveal-delay-3 flex flex-wrap gap-2 mt-8">
+            <button (click)="setFilter('All')"
+                [ngClass]="active==='All'?'bg-accent text-white border-accent':'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-700 hover:border-accent'"
+                class="text-sm px-4 py-1.5 rounded-full border transition-colors">All</button>
+            <button (click)="setFilter('Frontend Dev & UI')"
+                [ngClass]="active==='Frontend Dev & UI'?'bg-accent text-white border-accent':'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-700 hover:border-accent'"
+                class="text-sm px-4 py-1.5 rounded-full border transition-colors">Front Dev & UI</button>
+            <button (click)="setFilter('Backend & API Dev')"
+                [ngClass]="active==='Backend & API Dev'?'bg-accent text-white border-accent':'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-700 hover:border-accent'"
+                class="text-sm px-4 py-1.5 rounded-full border transition-colors">Back & API Dev</button>
+            <button (click)="setFilter('DevOps & Cloud Dev')"
+                [ngClass]="active==='DevOps & Cloud Dev'?'bg-accent text-white border-accent':'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-700 hover:border-accent'"
+                class="text-sm px-4 py-1.5 rounded-full border transition-colors">DevOps & Cloud</button>
+        </div>
+    </div>
+</section>
+
+<!-- ALL ARTICLES GRID -->
+<section class="pb-24">
+    <div class="max-w-6xl mx-auto px-6">
+        <div class="grid md:grid-cols-3 gap-6">
+            @for (post of posts; track post.id; let i = $index) {
+            <article
+                class="reveal card group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+                <div class="photo-frame w-full h-44">
+                    <img [src]="post.img" [alt]="post.title" loading="lazy" />
+                </div>
+                <div class="p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                        <span
+                            class="text-xs bg-orange-50 dark:bg-zinc-800 text-accent border border-orange-200 dark:border-zinc-700 px-2.5 py-1 rounded-full">{{
+                            post.tag }}</span>
+                        <span class="text-xs text-zinc-400">{{ post.date }}</span>
+                    </div>
+                    <a [routerLink]="['/blog', post.id]">
+                        <h3
+                            class="font-display font-bold text-lg text-zinc-900 dark:text-white mb-2 group-hover:text-accent transition-colors">
+                            {{ post.title }}</h3>
+                    </a>
+                    <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">{{ post.text }}</p>
+                    <a [routerLink]="['/blog', post.id]"
+                        class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 dark:text-white nav-link">Read
+                        more →</a>
+                </div>
+            </article>
+            }
+
+        </div>
+
+        <!-- Pagination -->
+        <nav class="reveal flex items-center justify-center gap-2 mt-14" aria-label="Pagination">
+            @for (page of pages; track page) {
+            <a href="#" (click)="changePage(page, $event)"
+                [ngClass]="page === currentPage ? 'bg-accent text-white border-accent border' : 'border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 hover:border-accent hover:text-accent transition-colors'"
+                class="w-9 h-9 flex items-center justify-center rounded-full text-sm font-medium">
+                {{ page }}
+            </a>
+            }
+        </nav>
+    </div>
+</section>

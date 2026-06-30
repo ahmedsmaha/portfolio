@@ -1,0 +1,76 @@
+<section class="pt-36 pb-12 relative overflow-hidden">
+    <div class="absolute top-0 right-0 w-80 h-80 bg-accent/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="max-w-6xl mx-auto px-6 relative z-10">
+        <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Portfolio</p>
+        <h1 class="reveal font-display font-bold text-5xl md:text-6xl text-zinc-900 dark:text-white leading-tight mb-4">
+            All Projects</h1>
+        <p class="reveal text-lg text-zinc-500 dark:text-zinc-400 max-w-xl leading-relaxed mb-8">A complete look at my
+            work across UI/UX design, frontend development and landing pages.</p>
+        <div class="reveal flex flex-wrap gap-2">
+            @for (f of filterOptions; track $index) {
+            <button (click)="setFilter(f)"
+                [ngClass]="filter === f ? 'bg-accent text-white border-accent' : 'bg-white dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 border-zinc-200 dark:border-zinc-700 hover:border-accent'"
+                class="text-sm px-4 py-1.5 rounded-full border transition-colors">
+                {{ f }}
+            </button>
+            }
+        </div>
+    </div>
+</section>
+
+<section class="pb-24">
+    <div class="max-w-6xl mx-auto px-6">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            @for (p of allProjects; track p.id) {
+            <div [class.hidden]="!(filter === 'All' || p.category === filter)"
+                class="transition-all duration-300 transform"
+                [ngClass]="(filter === 'All' || p.category === filter) ? 'opacity-100 scale-100 translate-y-0' : 'opacity-0 scale-95 translate-y-2 pointer-events-none'">
+                <article
+                    class="project-card group h-full rounded-2xl overflow-hidden bg-white dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-accent transition-colors">
+                    <a [routerLink]="['/work', p.id]" class="block photo-frame w-full h-52">
+                        <img [src]="p.img" [alt]="p.title" loading="lazy" />
+                    </a>
+                    <div class="p-6">
+                        <div class="flex flex-wrap gap-2 mb-3">
+                            <span
+                                class="text-xs px-2.5 py-1 rounded-full bg-orange-50 dark:bg-zinc-800 text-accent border border-orange-200 dark:border-zinc-700">
+                                {{ p.category }}
+                            </span>
+                            @for (tag of p.tags; track tag) {
+                            <span
+                                class="text-xs px-2.5 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400">
+                                {{ tag }}
+                            </span>
+                            }
+                        </div>
+                        <a [routerLink]="['/work', p.id]">
+                            <h3
+                                class="font-display font-bold text-lg text-zinc-900 dark:text-white mb-2 group-hover:text-accent transition-colors">
+                                {{ p.title }}
+                            </h3>
+                        </a>
+                        <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-4">
+                            {{ p.desc }}
+                        </p>
+                        <div class="flex items-center justify-between">
+                            <a [routerLink]="['/work', p.id]"
+                                class="inline-flex items-center gap-1.5 text-sm font-medium text-zinc-900 dark:text-white nav-link">View
+                                project <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                    aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                </svg></a>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            }
+        </div>
+
+        @if (visibleCount === 0) {
+        <div class="text-center py-20">
+            <p class="text-zinc-400 text-sm">No projects in this category yet.</p>
+        </div>
+        }
+    </div>
+</section>
