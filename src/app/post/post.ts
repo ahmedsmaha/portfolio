@@ -4,6 +4,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { PostService } from '../services/post.service';
 import { IPost } from '../types/ipost';
+import { RevealService } from '../services/reveal.service';
 
 @Component({
   selector: 'app-post',
@@ -21,7 +22,8 @@ export class Post implements OnInit, AfterViewInit {
     private el: ElementRef,
     private route: ActivatedRoute,
     private postService: PostService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private revealService: RevealService
   ) { }
 
   ngOnInit() {
@@ -35,37 +37,21 @@ export class Post implements OnInit, AfterViewInit {
           } else {
             this.safeContent = null;
           }
-          this.cdr.detectChanges(); // Force view update
+          this.cdr.detectChanges();
 
-          if (isPlatformBrowser(this.platformId)) {
-            setTimeout(() => this.initRevealObserver(), 100);
-          }
+          this.revealService.observe(this.el, { activeClass: 'visible' });
         });
       }
     });
   }
 
   ngAfterViewInit() {
+    this.revealService.observe(this.el, { activeClass: 'visible' });
     if (isPlatformBrowser(this.platformId)) {
       setTimeout(() => {
-        this.initRevealObserver();
         this.updateYear();
       }, 100);
     }
-  }
-
-  private initRevealObserver() {
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          observer.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
-    const reveals = this.el.nativeElement.querySelectorAll('.reveal');
-    reveals.forEach((el: Element) => observer.observe(el));
   }
 
   private updateYear() {

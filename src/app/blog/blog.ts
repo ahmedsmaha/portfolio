@@ -3,6 +3,7 @@ import { isPlatformBrowser, NgClass } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { PostService } from '../services/post.service';
 import { IPost } from '../types/ipost';
+import { RevealService } from '../services/reveal.service';
 
 @Component({
   selector: 'app-blog',
@@ -21,7 +22,8 @@ export class Blog implements OnInit, AfterViewInit {
     @Inject(PLATFORM_ID) private platformId: Object,
     private el: ElementRef,
     private postService: PostService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private revealService: RevealService
   ) { }
 
   ngOnInit() {
@@ -38,12 +40,8 @@ export class Blog implements OnInit, AfterViewInit {
     this.postService.getPosts(this.currentPage, this.limit, this.active).subscribe(res => {
       this.posts = res.posts;
       this.totalPages = res.totalPages;
-      this.cdr.detectChanges(); // Force view update after async load
-
-      // Re-initialize observer for new elements
-      if (isPlatformBrowser(this.platformId)) {
-        setTimeout(() => this.initRevealObserver(), 100);
-      }
+      this.cdr.detectChanges();
+      this.revealService.observe(this.el);
     });
   }
 
@@ -57,7 +55,6 @@ export class Blog implements OnInit, AfterViewInit {
       this.currentPage = page;
       this.loadPosts();
 
-      // Scroll to top of posts gently
       if (isPlatformBrowser(this.platformId)) {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
@@ -65,24 +62,6 @@ export class Blog implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    if (isPlatformBrowser(this.platformId)) {
-      setTimeout(() => {
-        this.initRevealObserver();
-      }, 100);
-    }
-  }
-
-  private initRevealObserver() {
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('in');
-          io.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
-    const reveals = this.el.nativeElement.querySelectorAll('.reveal:not(.in)');
-    reveals.forEach((el: Element) => io.observe(el));
+    this.revealService.observe(this.el);
   }
 }

@@ -8,6 +8,7 @@ import { IPost } from '../types/ipost';
 import { NgClass } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ContactService, ContactData } from '../services/contact.service';
+import { RevealService } from '../services/reveal.service';
 
 @Component({
   selector: 'app-home',
@@ -37,7 +38,8 @@ export class Home implements OnInit, AfterViewInit {
     private cdr: ChangeDetectorRef,
     private projectService: ProjectService,
     private postService: PostService,
-    private contactService: ContactService
+    private contactService: ContactService,
+    private revealService: RevealService
   ) { }
 
   onSubmit(form: NgForm) {
@@ -68,41 +70,23 @@ export class Home implements OnInit, AfterViewInit {
     this.projectService.getFeaturedProjects().subscribe(projects => {
       this.featuredProjects = projects;
       this.cdr.detectChanges();
-      if (isPlatformBrowser(this.platformId)) {
-        setTimeout(() => this.initRevealObserver(), 100);
-      }
+      this.revealService.observe(this.el);
     });
 
     this.postService.getFeaturedPosts().subscribe(posts => {
       this.featuredPosts = posts;
       this.cdr.detectChanges();
-      if (isPlatformBrowser(this.platformId)) {
-        setTimeout(() => this.initRevealObserver(), 100);
-      }
+      this.revealService.observe(this.el);
     });
   }
 
   ngAfterViewInit() {
+    this.revealService.observe(this.el);
     if (isPlatformBrowser(this.platformId)) {
       setTimeout(() => {
-        this.initRevealObserver();
         this.updateYear();
       }, 100);
     }
-  }
-
-  private initRevealObserver() {
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('in');
-          io.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
-    const reveals = this.el.nativeElement.querySelectorAll('.reveal:not(.in)');
-    reveals.forEach((el: Element) => io.observe(el));
   }
 
   private updateYear() {

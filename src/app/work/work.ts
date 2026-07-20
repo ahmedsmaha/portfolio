@@ -1,8 +1,9 @@
-import { Component, AfterViewInit, OnInit, Inject, PLATFORM_ID, ElementRef, ChangeDetectorRef } from '@angular/core';
-import { isPlatformBrowser, NgClass } from '@angular/common';
+import { Component, AfterViewInit, OnInit, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { NgClass } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ProjectService } from '../services/project.service';
 import { IProject } from '../types/iproject';
+import { RevealService } from '../services/reveal.service';
 
 @Component({
   selector: 'app-work',
@@ -18,20 +19,17 @@ export class Work implements OnInit, AfterViewInit {
   allProjects: IProject[] = [];
 
   constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
     private el: ElementRef,
     private cdr: ChangeDetectorRef,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+    private revealService: RevealService
   ) { }
 
   ngOnInit() {
     this.projectService.getProjects().subscribe(projects => {
       this.allProjects = projects;
-      this.cdr.detectChanges(); // Force view update after async load
-
-      if (isPlatformBrowser(this.platformId)) {
-        setTimeout(() => this.initRevealObserver(), 100);
-      }
+      this.cdr.detectChanges();
+      this.revealService.observe(this.el, { activeClass: 'visible', threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
     });
   }
 
@@ -43,30 +41,10 @@ export class Work implements OnInit, AfterViewInit {
   setFilter(val: string) {
     this.filter = val;
     this.cdr.detectChanges();
-    if (isPlatformBrowser(this.platformId)) {
-      setTimeout(() => this.initRevealObserver(), 50);
-    }
+    this.revealService.observe(this.el, { activeClass: 'visible', threshold: 0.08, rootMargin: '0px 0px -30px 0px', delay: 50 });
   }
 
   ngAfterViewInit() {
-    if (isPlatformBrowser(this.platformId)) {
-      setTimeout(() => {
-        this.initRevealObserver();
-      }, 100);
-    }
-  }
-
-  private initRevealObserver() {
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          e.target.classList.add('visible');
-          io.unobserve(e.target);
-        }
-      });
-    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
-
-    const reveals = this.el.nativeElement.querySelectorAll('.reveal:not(.visible)');
-    reveals.forEach((el: Element) => io.observe(el));
+    this.revealService.observe(this.el, { activeClass: 'visible', threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
   }
 }
