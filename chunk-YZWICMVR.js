@@ -1,4 +1,4 @@
-import{f as n,l,o as d,ya as p}from"./chunk-CTFUZPJN.js";var b=`
+import{f as n,l,o as d,ya as p}from"./chunk-4AA4N2XP.js";var b=`
 <article class="max-w-4xl mx-auto py-16 px-6">
 
   <!-- Header -->
