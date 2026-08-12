@@ -79,7 +79,7 @@ export class Header implements OnInit, AfterViewInit {
   updateSection() {
     if (!isPlatformBrowser(this.platformId)) return;
 
-    const ids = ['contact', 'blog', 'reviews', 'about', 'work', 'services', 'hero'];
+    const ids = ['contact', 'blog', 'skills', 'certificates', 'education', 'experience', 'reviews', 'about', 'work', 'services', 'hero'];
     for (const id of ids) {
       const el = document.getElementById(id);
       if (el && window.scrollY >= el.offsetTop - 130) {

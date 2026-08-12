@@ -227,7 +227,7 @@
                     <p class="text-xs font-medium text-zinc-500 dark:text-zinc-400 uppercase tracking-widest mb-3">Stack
                         &amp; tools</p>
                     <div class="flex flex-wrap gap-2" role="list" aria-label="Skills">
-                        @for (skill of skills; track skill) {
+                        @for (skill of skills_about_me; track skill) {
                         <span role="listitem"
                             class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">
                             {{ skill }}
@@ -237,6 +237,149 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+</section>
+
+<!-- ═══ EXPERIENCE ═══ -->
+<section id="experience" class="py-24">
+    <div class="max-w-6xl mx-auto px-6">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-14">
+            <div>
+                <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Career</p>
+                <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">
+                    Experience</h2>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 gap-6">
+            @for (item of experiences; track item.id; let i = $index) {
+            <article [ngClass]="'d' + ((i % 4) + 1)"
+                class="reveal card-h group bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-100 dark:border-zinc-800 hover:border-accent transition-colors">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-3 items-start">
+                    <h4
+                        class="font-display font-bold text-lg text-zinc-900 dark:text-white group-hover:text-accent transition-colors">
+                        {{ item.role }}</h4>
+                    <span
+                        class="text-xs font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 px-2.5 py-1 rounded-full">{{
+                        item.date }}</span>
+                </div>
+                <div
+                    class="text-sm font-medium text-accent mb-3 flex flex-col md:flex-row md:items-center gap-2 mb-3 justify-between">
+                    {{ item.company }}
+                    @if (item.location) {
+                    <span class="text-zinc-500 dark:text-zinc-400 font-normal">{{ item.location
+                        }}</span>
+                    }
+                </div>
+                @if (item.description) {
+                <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed whitespace-pre-line"
+                    [innerHTML]="item.description">
+                </p>
+                }
+            </article>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- ═══ EDUCATION ═══ -->
+<section id="education" class="py-24 bg-zinc-50 dark:bg-zinc-900/40">
+    <div class="max-w-6xl mx-auto px-6">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-14">
+            <div>
+                <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Academic</p>
+                <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">
+                    Education</h2>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 gap-6">
+            @for (item of educations; track item.id; let i = $index) {
+            <article [ngClass]="'d' + ((i % 4) + 1)"
+                class="reveal card-h group bg-white dark:bg-zinc-900 rounded-2xl p-6 border border-zinc-100 dark:border-zinc-800 hover:border-accent transition-colors">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-3 items-start">
+                    <h4
+                        class="font-display font-bold text-lg text-zinc-900 dark:text-white group-hover:text-accent transition-colors">
+                        {{ item.degree }}</h4>
+                    <span
+                        class="text-xs font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 px-2.5 py-1 rounded-full">{{
+                        item.date }}</span>
+                </div>
+                <div
+                    class="text-sm font-medium text-accent mb-3 flex flex-col md:flex-row md:items-center gap-2 mb-3 justify-between">
+                    {{ item.institution }}
+                    @if (item.location) {
+                    <span class="text-zinc-500 dark:text-zinc-400 font-normal">{{ item.location
+                        }}</span>
+                    }
+                </div>
+                @if (item.description) {
+                <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed whitespace-pre-line"
+                    [innerHTML]="item.description"></p>
+                }
+            </article>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- ═══ CERTIFICATES ═══ -->
+<section id="certificates" class="py-24">
+    <div class="max-w-6xl mx-auto px-6">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-14">
+            <div>
+                <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Achievements</p>
+                <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">
+                    Certificates</h2>
+            </div>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            @for (item of certificates; track item.id; let i = $index) {
+            <article [ngClass]="'d' + ((i % 4) + 1)"
+                class="reveal card-h group bg-white dark:bg-zinc-900 rounded-2xl p-4 lg:p-5 border border-zinc-100 dark:border-zinc-800 hover:border-accent transition-colors w-full">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-3 items-start">
+                    <h4
+                        class="font-display font-bold text-lg text-zinc-900 dark:text-white group-hover:text-accent transition-colors">
+                        @if (item.url) {
+                        <a [href]="item.url" target="_blank" rel="noopener noreferrer">{{ item.title }}</a>
+                        } @else {
+                        {{ item.title }}
+                        }
+                    </h4>
+                    <span
+                        class="text-xs font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 px-2.5 py-1 rounded-full">{{
+                        item.date }}</span>
+                </div>
+                <div class="text-sm font-medium text-accent mb-3">{{ item.issuer }}</div>
+            </article>
+            }
+        </div>
+    </div>
+</section>
+
+<!-- ═══ SKILLS ═══ -->
+<section id="skills" class="py-24 bg-zinc-50 dark:bg-zinc-900/40">
+    <div class="max-w-6xl mx-auto px-6">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-14">
+            <div>
+                <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Expertise</p>
+                <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">Skills
+                </h2>
+            </div>
+        </div>
+        <div class="flex flex-wrap gap-4">
+            @for (item of skills; track item.id; let i = $index) {
+            <article [ngClass]="'d' + ((i % 4) + 1)"
+                class="reveal card-h group bg-white dark:bg-zinc-900 rounded-2xl p-4 lg:p-5 border border-zinc-100 dark:border-zinc-800 hover:border-accent transition-colors sm:w-auto sm:flex-none">
+                <div class="flex items-center gap-4">
+                    <h4
+                        class="font-display font-bold text-base text-zinc-900 dark:text-white group-hover:text-accent transition-colors whitespace-nowrap">
+                        {{ item.name }}</h4>
+                    <span
+                        class="text-[10px] font-medium bg-zinc-100 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 px-2 py-1 rounded-full whitespace-nowrap">{{
+                        item.category }}</span>
+                </div>
+            </article>
+            }
         </div>
     </div>
 </section>
@@ -262,7 +405,7 @@
                 </svg></a>
         </div>
 
-        <div class="grid md:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
             @for (post of featuredPosts; track post.id; let i = $index) {
             <article [ngClass]="i === 0 ? 'd1' : (i === 1 ? 'd2' : 'd3')"

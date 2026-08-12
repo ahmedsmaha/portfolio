@@ -9,6 +9,14 @@ import { NgClass } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ContactService, ContactData } from '../services/contact.service';
 import { RevealService } from '../services/reveal.service';
+import { ExperienceService } from '../services/experience.service';
+import { IExperience } from '../types/iexperience';
+import { EducationService } from '../services/education.service';
+import { IEducation } from '../types/ieducation';
+import { CertificateService } from '../services/certificate.service';
+import { ICertificate } from '../types/icertificate';
+import { SkillService } from '../services/skill.service';
+import { ISkill } from '../types/iskill';
 
 @Component({
   selector: 'app-home',
@@ -25,13 +33,16 @@ export class Home implements OnInit, AfterViewInit {
   submitSuccess = false;
   submitError = false;
 
-  skills = [
+  skills_about_me = [
     'Angular', 'TypeScript', 'JavaScript', 'RxJS', 'HTML / CSS', 'Kendo UI', 'Tailwind CSS',
     'Node.js', 'Express.js', 'REST APIs', 'Microservices', 'JWT Auth',
     'MongoDB', 'Mongoose', 'Redis', 'Elasticsearch', 'NoSQL', 'Aggregation Pipelines',
     'Git / GitHub', 'Docker', 'CI/CD', 'Jira', 'Postman', 'Unit Testing'
   ];
-
+  experiences: IExperience[] = [];
+  educations: IEducation[] = [];
+  certificates: ICertificate[] = [];
+  skills: ISkill[] = [];
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private el: ElementRef,
@@ -39,7 +50,11 @@ export class Home implements OnInit, AfterViewInit {
     private projectService: ProjectService,
     private postService: PostService,
     private contactService: ContactService,
-    private revealService: RevealService
+    private revealService: RevealService,
+    private experienceService: ExperienceService,
+    private educationService: EducationService,
+    private certificateService: CertificateService,
+    private skillService: SkillService
   ) { }
 
   onSubmit(form: NgForm) {
@@ -75,6 +90,30 @@ export class Home implements OnInit, AfterViewInit {
 
     this.postService.getFeaturedPosts().subscribe(posts => {
       this.featuredPosts = posts;
+      this.cdr.detectChanges();
+      this.revealService.observe(this.el);
+    });
+
+    this.experienceService.getExperience().subscribe(data => {
+      this.experiences = data;
+      this.cdr.detectChanges();
+      this.revealService.observe(this.el);
+    });
+
+    this.educationService.getEducation().subscribe(data => {
+      this.educations = data;
+      this.cdr.detectChanges();
+      this.revealService.observe(this.el);
+    });
+
+    this.certificateService.getCertificates().subscribe(data => {
+      this.certificates = data;
+      this.cdr.detectChanges();
+      this.revealService.observe(this.el);
+    });
+
+    this.skillService.getSkills().subscribe(data => {
+      this.skills = data;
       this.cdr.detectChanges();
       this.revealService.observe(this.el);
     });

@@ -31,7 +31,7 @@
 <!-- ALL ARTICLES GRID -->
 <section class="pb-24">
     <div class="max-w-6xl mx-auto px-6">
-        <div class="grid md:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @for (post of posts; track post.id; let i = $index) {
             <article
                 class="reveal card group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent">

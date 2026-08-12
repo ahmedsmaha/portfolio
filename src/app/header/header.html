@@ -6,7 +6,7 @@
             <span class="text-zinc-900 dark:text-white">ahm</span><span class="text-accent">ed</span>
         </a>
 
-        <ul class="hidden md:flex items-center gap-8 text-sm" role="list">
+        <ul class="hidden xl:flex items-center gap-8 text-sm" role="list">
             <li><a routerLink="/" fragment="services"
                     class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors"
                     [ngClass]="{'on !text-zinc-900 dark:!text-white': s === 'services'}">Services</a></li>
@@ -24,6 +24,18 @@
             <li><a routerLink="/" fragment="about"
                     class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors"
                     [ngClass]="{'on !text-zinc-900 dark:!text-white': s === 'about'}">About</a></li>
+            <li><a routerLink="/" fragment="experience"
+                    class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors"
+                    [ngClass]="{'on !text-zinc-900 dark:!text-white': s === 'experience'}">Experience</a></li>
+            <li><a routerLink="/" fragment="education"
+                    class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors"
+                    [ngClass]="{'on !text-zinc-900 dark:!text-white': s === 'education'}">Education</a></li>
+            <li><a routerLink="/" fragment="certificates"
+                    class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors"
+                    [ngClass]="{'on !text-zinc-900 dark:!text-white': s === 'certificates'}">Certificates</a></li>
+            <li><a routerLink="/" fragment="skills"
+                    class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors"
+                    [ngClass]="{'on !text-zinc-900 dark:!text-white': s === 'skills'}">Skills</a></li>
             <li>
                 @if (isHome()) {
                 <a routerLink="/" fragment="blog"
@@ -60,7 +72,7 @@
             </button>
             <!-- hire me -->
             <a href="https://drive.google.com/file/d/1yAwb5nRVWDRCtZk9nI2p3r85O-SL2tuw/view" target="_blank"
-                class="hidden md:inline-flex items-center gap-2 shimmer bg-accent text-white text-sm font-medium px-5 py-2 rounded-full hover:bg-accent-light transition-colors">
+                class="hidden xl:inline-flex items-center gap-2 shimmer bg-accent text-white text-sm font-medium px-5 py-2 rounded-full hover:bg-accent-light transition-colors">
                 Download CV <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"
                     aria-hidden="true">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -69,7 +81,7 @@
             </a>
             <!-- hamburger -->
             <button (click)="mm = !mm"
-                class="md:hidden w-9 h-9 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800"
+                class="xl:hidden w-9 h-9 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800"
                 [attr.aria-expanded]="mm" aria-label="Toggle menu">
                 @if(!mm) {
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -87,7 +99,7 @@
 
     <!-- mobile menu -->
     @if(mm) {
-    <div class="md:hidden bg-white dark:bg-zinc-950 border-t border-zinc-100 dark:border-zinc-900">
+    <div class="xl:hidden bg-white dark:bg-zinc-950 border-t border-zinc-100 dark:border-zinc-900">
         <ul class="flex flex-col px-6 py-5 gap-4 text-sm font-medium" role="list">
             <li><a routerLink="/" fragment="services" (click)="mm=false"
                     class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">Services</a></li>
@@ -104,6 +116,17 @@
             </li>
             <li><a href="#about" (click)="mm=false"
                     class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">About</a></li>
+            <li><a routerLink="/" fragment="experience" (click)="mm=false"
+                    class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">Experience</a>
+            </li>
+            <li><a routerLink="/" fragment="education" (click)="mm=false"
+                    class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">Education</a>
+            </li>
+            <li><a routerLink="/" fragment="certificates" (click)="mm=false"
+                    class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">Certificates</a>
+            </li>
+            <li><a routerLink="/" fragment="skills" (click)="mm=false"
+                    class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">Skills</a></li>
             <li>
                 @if (isHome()) {
                 <a routerLink="/" fragment="blog" (click)="mm=false"
